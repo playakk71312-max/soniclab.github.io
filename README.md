@@ -1,1 +1,1 @@
-This is for my friend :))
+DO NOT CLICK ON THE BUTTONS, THIS IS FOR A PRANK for my friend
