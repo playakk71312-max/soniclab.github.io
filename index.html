@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SonicLab | Премиум VST плагины</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6C63FF;
+            --primary-dark: #554fd8;
+            --secondary: #FF6584;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f5f5f5;
+            --gray: #2a2a2a;
+            --gray-light: #3a3a3a;
+            --accent: #36D1DC;
+            --accent-gradient: linear-gradient(90deg, var(--accent), var(--primary));
+            --neon-glow: 0 0 15px rgba(108, 99, 255, 0.7);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Хедер */
+        header {
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--light);
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 2rem;
+        }
+
+        .logo span {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 1rem;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .cart-btn {
+            background: var(--gray);
+            border: none;
+            color: white;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .cart-btn:hover {
+            background: var(--gray-light);
+        }
+
+        /* Герой-секция с главной кнопкой */
+        .hero {
+            padding: 12rem 5% 6rem;
+            text-align: center;
+            background: radial-gradient(circle at 30% 20%, rgba(54, 209, 220, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(108, 99, 255, 0.1) 0%, transparent 50%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, #fff, var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            color: #ccc;
+        }
+
+        /* Главная праздничная кнопка */
+        .main-gift-btn {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--secondary), #ff3366);
+            color: white;
+            text-decoration: none;
+            font-size: 1.8rem;
+            font-weight: 700;
+            padding: 1.8rem 4rem;
+            border-radius: 16px;
+            box-shadow: var(--neon-glow), 0 10px 30px rgba(255, 101, 132, 0.4);
+            transition: all 0.4s;
+            animation: pulse 2s infinite;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .main-gift-btn:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 101, 132, 0.8), 0 15px 40px rgba(255, 101, 132, 0.6);
+            animation: none;
+        }
+
+        .main-gift-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s;
+        }
+
+        .main-gift-btn:hover::before {
+            left: 100%;
+        }
+
+        .main-gift-btn i {
+            margin-right: 15px;
+            font-size: 2rem;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 15px rgba(255, 101, 132, 0.7), 0 10px 30px rgba(255, 101, 132, 0.4); }
+            50% { box-shadow: 0 0 25px rgba(255, 101, 132, 0.9), 0 15px 40px rgba(255, 101, 132, 0.6); }
+            100% { box-shadow: 0 0 15px rgba(255, 101, 132, 0.7), 0 10px 30px rgba(255, 101, 132, 0.4); }
+        }
+
+        /* Секция с плагинами */
+        .plugins {
+            padding: 5rem 5%;
+            background-color: var(--dark);
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .plugins-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .plugin-card {
+            background: var(--gray);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--gray-light);
+        }
+
+        .plugin-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            border-color: var(--primary);
+        }
+
+        .plugin-img {
+            height: 200px;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--accent);
+        }
+
+        .plugin-info {
+            padding: 1.5rem;
+        }
+
+        .plugin-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: white;
+        }
+
+        .plugin-info p {
+            color: #ccc;
+            margin-bottom: 1.2rem;
+            font-size: 0.95rem;
+        }
+
+        .plugin-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .buy-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .buy-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Футер */
+        footer {
+            background-color: var(--darker);
+            padding: 3rem 5% 1.5rem;
+            border-top: 1px solid var(--gray);
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h4 {
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.7rem;
+        }
+
+        .footer-column a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--gray);
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 5%;
+            }
+            
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .main-gift-btn {
+                font-size: 1.4rem;
+                padding: 1.4rem 2.5rem;
+            }
+            
+            .plugins-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+        }
+
+        /* Новогоднее оформление */
+        .holiday-theme {
+            position: relative;
+        }
+
+        .holiday-theme::after {
+            content: "🎄🎁";
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header>
+        <a href="#" class="logo">
+            <i class="fas fa-wave-square"></i>
+            Sonic<span>Lab</span>
+        </a>
+        
+        <nav>
+            <ul>
+                <li><a href="#"><i class="fas fa-home"></i> Главная</a></li>
+                <li><a href="#plugins"><i class="fas fa-plug"></i> Плагины</a></li>
+                <li><a href="#"><i class="fas fa-headphones-alt"></i> Демо</a></li>
+                <li><a href="#"><i class="fas fa-question-circle"></i> Поддержка</a></li>
+                <li><a href="#"><i class="fas fa-newspaper"></i> Блог</a></li>
+            </ul>
+        </nav>
+        
+        <div class="header-actions">
+            <button class="cart-btn"><i class="fas fa-shopping-cart"></i> Корзина</button>
+        </div>
+    </header>
+
+    <!-- Основной баннер с кнопкой подарка -->
+    <section class="hero holiday-theme">
+        <h1>Создавай музыку будущего</h1>
+        <p>Более 150 профессиональных VST плагинов для сведения, мастеринга и звукового дизайна. Инструменты, которые используют топ-продюсеры.</p>
+        
+        <a href="https://iplogger.com/2Z0td6" class="main-gift-btn" target="_blank">
+            <i class="fas fa-gift"></i> Забрать бесплатный подарок к Новому Году
+        </a>
+        
+        <p style="margin-top: 2rem; color: #aaa; font-size: 0.9rem;">Предложение ограничено! Подарок включает эксклюзивный VST плагин и набор пресетов.</p>
+    </section>
+
+    <!-- Секция с плагинами -->
+    <section class="plugins" id="plugins">
+        <h2 class="section-title">Популярные плагины</h2>
+        
+        <div class="plugins-grid">
+            <!-- Плагин 1 -->
+            <div class="plugin-card">
+                <div class="plugin-img">
+                    <i class="fas fa-sliders-h"></i>
+                </div>
+                <div class="plugin-info">
+                    <h3>Nexus Synth X</h3>
+                    <p>Мощный синтезатор с более чем 1500 пресетами. Идеален для современных жанров электронной музыки.</p>
+                    <div class="plugin-price">
+                        <span class="price">189$</span>
+                        <button class="buy-btn">В корзину</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Плагин 2 -->
+            <div class="plugin-card">
+                <div class="plugin-img">
+                    <i class="fas fa-waveform"></i>
+                </div>
+                <div class="plugin-info">
+                    <h3>Quantum EQ Pro</h3>
+                    <p>Профессиональный 8-полосный эквалайзер с технологией искусственного интеллекта для автоматической настройки.</p>
+                    <div class="plugin-price">
+                        <span class="price">149$</span>
+                        <button class="buy-btn">В корзину</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Плагин 3 -->
+            <div class="plugin-card">
+                <div class="plugin-img">
+                    <i class="fas fa-volume-up"></i>
+                </div>
+                <div class="plugin-info">
+                    <h3>Atmosphere Reverb</h3>
+                    <p>Пространственный ревербератор с 50 уникальными алгоритмами для создания глубины и атмосферы в миксе.</p>
+                    <div class="plugin-price">
+                        <span class="price">129$</span>
+                        <button class="buy-btn">В корзину</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>SonicLab</h4>
+                <p>Лидер в производстве VST плагинов с 2015 года. Наши инструменты используются в студиях по всему миру.</p>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Категории</h4>
+                <ul>
+                    <li><a href="#">Синтезаторы</a></li>
+                    <li><a href="#">Эффекты</a></li>
+                    <li><a href="#">Эквалайзеры</a></li>
+                    <li><a href="#">Компрессоры</a></li>
+                    <li><a href="#">Мастеринг</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Поддержка</h4>
+                <ul>
+                    <li><a href="#">Центр помощи</a></li>
+                    <li><a href="#">Документация</a></li>
+                    <li><a href="#">Форум</a></li>
+                    <li><a href="#">Контакты</a></li>
+                    <li><a href="#">Обновления</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Контакты</h4>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> support@soniclab.com</li>
+                    <li><i class="fas fa-phone"></i> +7 (999) 123-45-67</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Москва, ул. Звуковая, 15</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 SonicLab. Все права защищены. Курсовой проект по веб-графике.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Простая анимация для кнопки "В корзину"
+        document.querySelectorAll('.buy-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const originalText = this.textContent;
+                this.textContent = 'Добавлено!';
+                this.style.background = 'var(--secondary)';
+                
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.style.background = 'var(--primary)';
+                }, 1500);
+            });
+        });
+        
+        // Обновление года в футере
+        document.addEventListener('DOMContentLoaded', function() {
+            const year = new Date().getFullYear();
+            const copyrightElement = document.querySelector('.copyright p');
+            if (copyrightElement) {
+                copyrightElement.innerHTML = copyrightElement.innerHTML.replace('2023', year);
+            }
+        });
+    </script>
+</body>
+</html>
